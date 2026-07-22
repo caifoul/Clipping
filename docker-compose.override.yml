@@ -1,0 +1,38 @@
+# Local dev conveniences: hot reload, bind mounts, direct port access.
+# Applied automatically by `docker compose up` alongside docker-compose.yml.
+services:
+  api:
+    command: >
+      sh -c "alembic upgrade head &&
+             uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+    volumes:
+      - ./backend/app:/app/app
+      - ./data/media:${MEDIA_ROOT}
+    ports:
+      - "8000:8000"
+
+  worker-cpu:
+    volumes:
+      - ./backend/app:/app/app
+      - ./data/media:${MEDIA_ROOT}
+
+  worker-io:
+    volumes:
+      - ./backend/app:/app/app
+      - ./data/media:${MEDIA_ROOT}
+
+  frontend:
+    build:
+      context: ./frontend
+      target: dev
+    command: npm run dev -- --host 0.0.0.0
+    environment:
+      API_PROXY_TARGET: http://api:8000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+
+  caddy:
+    profiles: ["prod-only"]
