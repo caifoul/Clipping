@@ -17,8 +17,18 @@ MODELS_DIR = DATA_DIR / "models"
 OUT_MEDIUM_RAW_DIR = DATA_DIR / "out" / "medium_raw"
 OUT_MEDIUM_DIR = DATA_DIR / "out" / "medium"
 OUT_SHORT_DIR = DATA_DIR / "out" / "short"
+OUT_YOUTUBE_PREP_DIR = DATA_DIR / "out" / "youtube_prep"
 
-for d in (RAW_DIR, TRANSCRIPTS_DIR, ANALYSIS_DIR, MODELS_DIR, OUT_MEDIUM_RAW_DIR, OUT_MEDIUM_DIR, OUT_SHORT_DIR):
+for d in (
+    RAW_DIR,
+    TRANSCRIPTS_DIR,
+    ANALYSIS_DIR,
+    MODELS_DIR,
+    OUT_MEDIUM_RAW_DIR,
+    OUT_MEDIUM_DIR,
+    OUT_SHORT_DIR,
+    OUT_YOUTUBE_PREP_DIR,
+):
     d.mkdir(parents=True, exist_ok=True)
 
 

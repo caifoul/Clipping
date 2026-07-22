@@ -32,7 +32,7 @@ def transcribe_cmd(path: Path):
 @app.command(name="mediums")
 def mediums_cmd(
     path: Path,
-    topic: str = typer.Option(..., "--topic", help="Topic to find matching segments for"),
+    topic: str = typer.Option(None, "--topic", help="Topic to find matching segments for (omit for general highlight detection)"),
     max_segments: int = 5,
 ):
     """Analyze + cut medium clips (reframed + captioned) matching a topic, from a local video file."""
@@ -59,7 +59,7 @@ def shorts_cmd(medium_raw_clip: Path):
 @app.command(name="run")
 def run_cmd(
     url: str,
-    topic: str = typer.Option(..., "--topic", help="Topic to find matching segments for"),
+    topic: str = typer.Option(None, "--topic", help="Topic to find matching segments for (omit for general highlight detection)"),
     max_segments: int = 5,
 ):
     """Full pipeline: ingest -> transcribe -> analyze -> medium clips (reframed+captioned) -> short clips (plain)."""

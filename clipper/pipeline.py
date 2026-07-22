@@ -110,7 +110,7 @@ def run_pipeline(
     video_id, video_path = ingest(url)
     transcript, boundaries = analyze(video_id, video_path, on_stage=on_stage)
 
-    _report(on_stage, "selecting medium clips matching topic")
+    _report(on_stage, f"selecting medium clips matching topic: {topic}" if topic else "selecting highlight-worthy medium clips")
     medium_candidates = select_medium_segments(transcript, boundaries, topic, max_segments=max_medium)
 
     result = PipelineResult()
