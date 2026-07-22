@@ -101,7 +101,7 @@ def make_short_clip(
 
 def run_pipeline(
     url: str,
-    topic: str,
+    topic: str | None = None,
     max_medium: int = 5,
     on_stage: StageCallback | None = None,
 ) -> PipelineResult:
