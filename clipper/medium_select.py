@@ -34,18 +34,27 @@ _SCHEMA = {
 def select_medium_segments(
     transcript: Transcript,
     boundaries: list[Boundary],
-    topic: str,
+    topic: str | None = None,
     max_segments: int = 5,
 ) -> list[MediumCandidate]:
     boundary_hint = ", ".join(f"{b.time:.2f}" for b in boundaries)
+
+    if topic:
+        task_description = f"""Requested topic: "{topic}"
+
+Find every segment of the transcript that is substantively about this topic and forms a \
+coherent, self-contained clip (has a clear beginning and end, doesn't cut off mid-thought)."""
+    else:
+        task_description = """Find the most interesting, highlight-worthy, self-contained moments in \
+the transcript (has a clear beginning and end, doesn't cut off mid-thought) — the kind of moments \
+that would make a compelling standalone social clip: strong reactions, funny or surprising exchanges, \
+skillful plays, notable turning points, or otherwise memorable content."""
+
     prompt = f"""You are selecting clips from a timestamped video transcript to turn into medium-length \
 social clips (target length ~{SETTINGS.medium_target_seconds:.0f}s, acceptable range \
 {SETTINGS.medium_min_seconds:.0f}-{SETTINGS.medium_max_seconds:.0f}s).
 
-Requested topic: "{topic}"
-
-Find every segment of the transcript that is substantively about this topic and forms a \
-coherent, self-contained clip (has a clear beginning and end, doesn't cut off mid-thought). \
+{task_description}
 Prefer segments whose start/end land on or very near one of these candidate cut points \
 (seconds): {boundary_hint}
 
